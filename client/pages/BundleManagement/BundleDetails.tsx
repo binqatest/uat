@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Search, 
@@ -21,16 +21,11 @@ import {
   Clock, 
   DollarSign, 
   Bell,
-  Settings,
-  User,
   ExternalLink
 } from 'lucide-react';
 import { 
   BundleDetailsResponse, 
-  BundleInfo, 
-  NotificationMessagesResponse, 
-  SubscribeBundleRequest,
-  SubscribeBundleResponse 
+  BundleInfo
 } from '@shared/api';
 
 // Search Form Component
@@ -174,7 +169,7 @@ const BasicBundleInfo = ({ bundleData }: { bundleData: BundleInfo }) => {
 };
 
 // Period Lifecycle Component
-const PeriodLifecycleInfo = ({ plc }: { plc: BundleInfo['plc'] }) => {
+const PeriodLifecycleInfo = ({ plc, nccId }: { plc: BundleInfo['plc']; nccId: string }) => {
   if (!plc) return null;
 
   return (
@@ -219,10 +214,14 @@ const PeriodLifecycleInfo = ({ plc }: { plc: BundleInfo['plc'] }) => {
                           <div className="flex items-center justify-between mb-2">
                             <Badge variant="outline">{action.type}</Badge>
                             {action.notificationTemplateId && (
-                              <Badge variant="secondary" className="text-xs">
-                                <Bell className="h-3 w-3 mr-1" />
+                              <Link 
+                                to={`/messages-template?nccId=${encodeURIComponent(nccId)}&notificationId=${encodeURIComponent(action.notificationTemplateId)}`}
+                                className="inline-flex items-center gap-1 text-brand hover:text-brand-600 underline decoration-dotted"
+                              >
+                                <Bell className="h-3 w-3" />
                                 {action.notificationTemplateId}
-                              </Badge>
+                                <ExternalLink className="h-3 w-3" />
+                              </Link>
                             )}
                           </div>
                           <div className="text-sm space-y-1">
@@ -291,216 +290,6 @@ const ChargingLogicInfo = ({ chargingLogic }: { chargingLogic: BundleInfo['charg
             ))}
           </TableBody>
         </Table>
-      </CardContent>
-    </Card>
-  );
-};
-
-// Notification Messages Component
-const NotificationMessages = ({ nccId }: { nccId: string }) => {
-  const [notificationId, setNotificationId] = useState('');
-  const [messages, setMessages] = useState<NotificationMessagesResponse | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleFetchMessages = async () => {
-    if (!notificationId.trim()) {
-      setError('Notification ID is required');
-      return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch(`/api/notification-messages?nccId=${encodeURIComponent(nccId)}&notificationId=${encodeURIComponent(notificationId)}`);
-      const data = await response.json();
-      
-      if (response.ok) {
-        setMessages(data);
-      } else {
-        setError(data.error || 'Failed to fetch notification messages');
-      }
-    } catch (err) {
-      setError('Failed to fetch notification messages');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Bell className="h-5 w-5" />
-          Notification Messages
-        </CardTitle>
-        <CardDescription>
-          Display messages for specific notification template
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <Label htmlFor="notificationId">Notification ID</Label>
-            <Input
-              id="notificationId"
-              type="text"
-              placeholder="Enter notification template ID"
-              value={notificationId}
-              onChange={(e) => setNotificationId(e.target.value)}
-            />
-          </div>
-          <div className="pt-6">
-            <Button onClick={handleFetchMessages} disabled={loading || !notificationId}>
-              {loading ? 'Loading...' : 'Fetch Messages'}
-            </Button>
-          </div>
-        </div>
-
-        {error && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {messages && (
-          <div className="space-y-4">
-            <div className="flex gap-4 text-sm">
-              <div>
-                <span className="font-medium">NCC ID:</span> 
-                <Badge variant="outline" className="ml-1">{messages.nccId}</Badge>
-              </div>
-              <div>
-                <span className="font-medium">Notification ID:</span> 
-                <Badge variant="outline" className="ml-1">{messages.notificationId}</Badge>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              {Object.entries(messages.messagesByChannel).map(([channel, channelMessages]) => (
-                <Card key={channel} className="border-l-4 border-l-blue-500">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base">{channel}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      {channelMessages.map((message, index) => (
-                        <Textarea
-                          key={index}
-                          value={message}
-                          readOnly
-                          className="min-h-[60px] resize-none"
-                        />
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-};
-
-// Subscribe Bundle Component
-const SubscribeBundle = ({ nccId }: { nccId: string }) => {
-  const [msisdn, setMsisdn] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<SubscribeBundleResponse | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setResult(null);
-
-    try {
-      const response = await fetch('/api/bundle-subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ msisdn, nccId }),
-      });
-
-      const data: SubscribeBundleResponse = await response.json();
-      setResult(data);
-    } catch (err) {
-      setResult({
-        success: false,
-        message: 'Failed to subscribe bundle. Please try again.'
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <User className="h-5 w-5" />
-          Subscribe Bundle
-        </CardTitle>
-        <CardDescription>
-          Subscribe a bundle for a user
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {result && (
-            <Alert variant={result.success ? "default" : "destructive"}>
-              {result.success ? <CheckCircle className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
-              <AlertDescription>
-                {result.message}
-                {result.subscriptionId && (
-                  <div className="mt-1 text-sm">
-                    Subscription ID: <Badge variant="outline">{result.subscriptionId}</Badge>
-                  </div>
-                )}
-              </AlertDescription>
-            </Alert>
-          )}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="msisdn">Enter MSISDN *</Label>
-              <Input
-                id="msisdn"
-                type="text"
-                placeholder="e.g., 254712345678"
-                value={msisdn}
-                onChange={(e) => setMsisdn(e.target.value)}
-                pattern="[0-9]{10,15}"
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="nccIdSub">Enter NCC ID *</Label>
-              <Input
-                id="nccIdSub"
-                type="text"
-                value={nccId}
-                readOnly
-                className="bg-muted"
-              />
-            </div>
-          </div>
-
-          <Button type="submit" disabled={loading || !msisdn.trim()}>
-            {loading ? (
-              <div className="flex items-center gap-2">
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                Subscribing...
-              </div>
-            ) : (
-              'Submit'
-            )}
-          </Button>
-        </form>
       </CardContent>
     </Card>
   );
@@ -589,7 +378,7 @@ export default function BundleDetails() {
 
             {/* Bundle Information Tabs */}
             <Tabs defaultValue="basic-info" className="w-full">
-              <TabsList className="grid w-full grid-cols-5">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="basic-info" className="flex items-center gap-2">
                   <Info className="h-4 w-4" />
                   Basic Info
@@ -602,14 +391,6 @@ export default function BundleDetails() {
                   <DollarSign className="h-4 w-4" />
                   Charging
                 </TabsTrigger>
-                <TabsTrigger value="notifications" className="flex items-center gap-2">
-                  <Bell className="h-4 w-4" />
-                  Messages
-                </TabsTrigger>
-                <TabsTrigger value="subscribe" className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
-                  Subscribe
-                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="basic-info" className="mt-6">
@@ -617,19 +398,11 @@ export default function BundleDetails() {
               </TabsContent>
 
               <TabsContent value="lifecycle" className="mt-6">
-                <PeriodLifecycleInfo plc={bundleData.plc} />
+                <PeriodLifecycleInfo plc={bundleData.plc} nccId={nccId} />
               </TabsContent>
 
               <TabsContent value="charging" className="mt-6">
                 <ChargingLogicInfo chargingLogic={bundleData.chargingLogic} />
-              </TabsContent>
-
-              <TabsContent value="notifications" className="mt-6">
-                <NotificationMessages nccId={nccId} />
-              </TabsContent>
-
-              <TabsContent value="subscribe" className="mt-6">
-                <SubscribeBundle nccId={nccId} />
               </TabsContent>
             </Tabs>
           </>
@@ -676,8 +449,7 @@ export default function BundleDetails() {
                   <p>• Basic bundle information</p>
                   <p>• Period lifecycle (PLC) details</p>
                   <p>• Charging logic configuration</p>
-                  <p>• Notification messages</p>
-                  <p>• Bundle subscription</p>
+                  <p>• Clickable notification templates</p>
                 </div>
               </CardContent>
             </Card>

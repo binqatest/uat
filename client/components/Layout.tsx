@@ -110,12 +110,12 @@ const sidebarNavItems: NavigationItem[] = [
         href: "/subscribe_bundle",
       },
       {
-        title: "Gift",
+        title: "Gift Bundle",
         icon: Gift,
         href: "/gift_bundle",
       },
       {
-        title: "Loan",
+        title: "Take Loan",
         icon: Banknote,
         href: "/loan_bundle",
       },

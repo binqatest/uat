@@ -1,12 +1,12 @@
 import { RequestHandler } from "express";
-import { 
-  BundleDetailsRequest, 
-  BundleDetailsResponse, 
+import {
+  BundleDetailsRequest,
+  BundleDetailsResponse,
   BundleInfo,
   NotificationMessagesRequest,
   NotificationMessagesResponse,
   SubscribeBundleRequest,
-  SubscribeBundleResponse
+  SubscribeBundleResponse,
 } from "@shared/api";
 
 export const getBundleDetails: RequestHandler = (req, res) => {
@@ -14,15 +14,16 @@ export const getBundleDetails: RequestHandler = (req, res) => {
 
   if (!nccId) {
     const response: BundleDetailsResponse = {
-      error: "NCC ID is required"
+      error: "NCC ID is required",
     };
     return res.status(400).json(response);
   }
 
   // Simulate database lookup
-  if (Math.random() < 0.1) { // 10% chance of not found
+  if (Math.random() < 0.1) {
+    // 10% chance of not found
     const response: BundleDetailsResponse = {
-      error: `Bundle with NCC ID "${nccId}" not found`
+      error: `Bundle with NCC ID "${nccId}" not found`,
     };
     return res.status(404).json(response);
   }
@@ -38,13 +39,19 @@ export const getBundleDetails: RequestHandler = (req, res) => {
     customData: {
       region: Math.random() > 0.5 ? "East Africa" : "West Africa",
       priority: Math.random() > 0.5 ? "High" : "Standard",
-      category: nccId.startsWith('CBU') ? 'Core Banking' : 
-               nccId.startsWith('EBU') ? 'Electronic Banking' :
-               nccId.startsWith('MPE') ? 'M-PESA' : 'Standard',
-      ...(Math.random() > 0.3 ? { 
-        specialFeature: "Premium Access",
-        allocatedBandwidth: `${Math.floor(Math.random() * 1000) + 100} Mbps`
-      } : {})
+      category: nccId.startsWith("CBU")
+        ? "Core Banking"
+        : nccId.startsWith("EBU")
+          ? "Electronic Banking"
+          : nccId.startsWith("MPE")
+            ? "M-PESA"
+            : "Standard",
+      ...(Math.random() > 0.3
+        ? {
+            specialFeature: "Premium Access",
+            allocatedBandwidth: `${Math.floor(Math.random() * 1000) + 100} Mbps`,
+          }
+        : {}),
     },
     plc: {
       name: `PLC_${nccId}`,
@@ -58,31 +65,31 @@ export const getBundleDetails: RequestHandler = (req, res) => {
               type: "ChargeAction",
               defaultValues: {
                 amount: Math.floor(Math.random() * 100) + 10,
-                currency: "KES"
-              }
+                currency: "KES",
+              },
             },
             {
               type: "SendNotificationAction",
               defaultValues: {
                 template: "activation_success",
-                channel: "SMS"
+                channel: "SMS",
               },
-              notificationTemplateId: `NOTIF_${Math.floor(Math.random() * 1000)}`
-            }
-          ]
+              notificationTemplateId: `NOTIF_${Math.floor(Math.random() * 1000)}`,
+            },
+          ],
         },
         {
           name: "EXPIRED",
           actions: [
             {
-              type: "SendNotificationAction", 
+              type: "SendNotificationAction",
               defaultValues: {
                 template: "bundle_expired",
-                channel: "SMS"
+                channel: "SMS",
               },
-              notificationTemplateId: `NOTIF_${Math.floor(Math.random() * 1000)}`
-            }
-          ]
+              notificationTemplateId: `NOTIF_${Math.floor(Math.random() * 1000)}`,
+            },
+          ],
         },
         {
           name: "SUSPENDED",
@@ -90,12 +97,12 @@ export const getBundleDetails: RequestHandler = (req, res) => {
             {
               type: "BlockAction",
               defaultValues: {
-                reason: "Insufficient balance"
-              }
-            }
-          ]
-        }
-      ]
+                reason: "Insufficient balance",
+              },
+            },
+          ],
+        },
+      ],
     },
     chargingLogic: [
       {
@@ -104,7 +111,7 @@ export const getBundleDetails: RequestHandler = (req, res) => {
         initialValue: Math.floor(Math.random() * 5000) + 1000,
         bucketType: "DATA_MB",
         thresholdProfileGroupId: `THR_GRP_${Math.floor(Math.random() * 100)}`,
-        isCarryOver: Math.random() > 0.5
+        isCarryOver: Math.random() > 0.5,
       },
       {
         clName: `CL_${nccId}_VOICE`,
@@ -112,52 +119,59 @@ export const getBundleDetails: RequestHandler = (req, res) => {
         initialValue: Math.floor(Math.random() * 300) + 50,
         bucketType: "VOICE_MINUTES",
         thresholdProfileGroupId: `THR_GRP_${Math.floor(Math.random() * 100)}`,
-        isCarryOver: Math.random() > 0.3
+        isCarryOver: Math.random() > 0.3,
       },
-      ...(Math.random() > 0.4 ? [{
-        clName: `CL_${nccId}_SMS`,
-        bucket: `BUCKET_SMS_${nccId}`,
-        initialValue: Math.floor(Math.random() * 100) + 10,
-        bucketType: "SMS_COUNT",
-        thresholdProfileGroupId: `THR_GRP_${Math.floor(Math.random() * 100)}`,
-        isCarryOver: false
-      }] : [])
-    ]
+      ...(Math.random() > 0.4
+        ? [
+            {
+              clName: `CL_${nccId}_SMS`,
+              bucket: `BUCKET_SMS_${nccId}`,
+              initialValue: Math.floor(Math.random() * 100) + 10,
+              bucketType: "SMS_COUNT",
+              thresholdProfileGroupId: `THR_GRP_${Math.floor(Math.random() * 100)}`,
+              isCarryOver: false,
+            },
+          ]
+        : []),
+    ],
   };
 
   const response: BundleDetailsResponse = {
-    result: bundleInfo
+    result: bundleInfo,
   };
 
   res.json(response);
 };
 
 export const getNotificationMessages: RequestHandler = (req, res) => {
-  const { nccId, notificationId } = req.query as { nccId: string; notificationId: string };
+  const { nccId, notificationId } = req.query as {
+    nccId: string;
+    notificationId: string;
+  };
 
   if (!nccId || !notificationId) {
     return res.status(400).json({
-      error: "Both NCC ID and Notification ID are required"
+      error: "Both NCC ID and Notification ID are required",
     });
   }
 
   // Generate messages for each language
   const generateSMSMessages = (nccId: string) => ({
-    "English": `Dear customer, your ${nccId} bundle has been activated successfully.`,
-    "Amharic": `ውድ ደንበኛ፣ የእርስዎ ${nccId} ጥቅል በተሳካ ሁኔታ ተነቅቷል።`,
-    "Oromo": `Maamila jaalala, paakeejiin ${nccId} keessan milkaa'inaan hojjetameera.`,
-    "Tigrinya": `ውድ ዓሚል፣ እቲ ${nccId} ፓኬጅኩም ብዓወት ተቐስቢሩ።`,
-    "Somali": `Macamiil qaaliga ah, xirmada ${nccId} ayaa si guul leh loo hawlgeliyay.`,
-    "Afar": `Yaabat maali, ${nccId} garbak-t raha oofin-t waqay.`
+    English: `Dear customer, your ${nccId} bundle has been activated successfully.`,
+    Amharic: `ውድ ደንበኛ፣ የእርስዎ ${nccId} ጥቅል በተሳካ ሁኔታ ተነቅቷል።`,
+    Oromo: `Maamila jaalala, paakeejiin ${nccId} keessan milkaa'inaan hojjetameera.`,
+    Tigrinya: `ውድ ዓሚል፣ እቲ ${nccId} ፓኬጅኩም ብዓወት ተቐስቢሩ።`,
+    Somali: `Macamiil qaaliga ah, xirmada ${nccId} ayaa si guul leh loo hawlgeliyay.`,
+    Afar: `Yaabat maali, ${nccId} garbak-t raha oofin-t waqay.`,
   });
 
   const generateKafikaMessages = (nccId: string) => ({
-    "English": `Notification: Your ${nccId} bundle is ready. Check balance with *123#.`,
-    "Amharic": `ማሳወቂያ፡ የእርስዎ ${nccId} ጥቅል ዝግጁ ነው። ሚዛኑን በ*123# ይመልከቱ።`,
-    "Oromo": `Beeksisa: Paakeejiin ${nccId} keessan qophaa'eera. Madaala *123# tiin ilaalaa.`,
-    "Tigrinya": `መግለጺ፡ እቲ ${nccId} ፓኬጅኩም ድሉው እዩ። ሚዛን ብ*123# ተዓዘብዎ።`,
-    "Somali": `Ogeysiis: Xirmada ${nccId} ayaa diyaar. Miisaanka *123# ku eeg.`,
-    "Afar": `Maatit: ${nccId} garbak-t digay. Miisan-t *123# teela.`
+    English: `Notification: Your ${nccId} bundle is ready. Check balance with *123#.`,
+    Amharic: `ማሳወቂያ፡ የእርስዎ ${nccId} ጥቅል ዝግጁ ነው። ሚዛኑን በ*123# ይመልከቱ።`,
+    Oromo: `Beeksisa: Paakeejiin ${nccId} keessan qophaa'eera. Madaala *123# tiin ilaalaa.`,
+    Tigrinya: `መግለጺ፡ እቲ ${nccId} ፓኬጅኩም ድሉው እዩ። ሚዛን ብ*123# ተዓዘብዎ።`,
+    Somali: `Ogeysiis: Xirmada ${nccId} ayaa diyaar. Miisaanka *123# ku eeg.`,
+    Afar: `Maatit: ${nccId} garbak-t digay. Miisan-t *123# teela.`,
   });
 
   const response: NotificationMessagesResponse = {
@@ -165,8 +179,8 @@ export const getNotificationMessages: RequestHandler = (req, res) => {
     notificationId,
     messagesByChannel: {
       SMS: Object.values(generateSMSMessages(nccId)),
-      Kafika: Object.values(generateKafikaMessages(nccId))
-    }
+      Kafika: Object.values(generateKafikaMessages(nccId)),
+    },
   };
 
   res.json(response);
@@ -179,7 +193,7 @@ export const subscribeBundle: RequestHandler = (req, res) => {
   if (!msisdn || !nccId) {
     const response: SubscribeBundleResponse = {
       success: false,
-      message: "MSISDN and NCC ID are required"
+      message: "MSISDN and NCC ID are required",
     };
     return res.status(400).json(response);
   }
@@ -189,16 +203,18 @@ export const subscribeBundle: RequestHandler = (req, res) => {
   if (!msisdnRegex.test(msisdn)) {
     const response: SubscribeBundleResponse = {
       success: false,
-      message: "Invalid MSISDN format. Please enter a valid phone number."
+      message: "Invalid MSISDN format. Please enter a valid phone number.",
     };
     return res.status(400).json(response);
   }
 
   // Simulate subscription process
-  if (Math.random() < 0.15) { // 15% chance of failure
+  if (Math.random() < 0.15) {
+    // 15% chance of failure
     const response: SubscribeBundleResponse = {
       success: false,
-      message: "Subscription failed. Insufficient balance or bundle not available."
+      message:
+        "Subscription failed. Insufficient balance or bundle not available.",
     };
     return res.status(422).json(response);
   }
@@ -206,7 +222,7 @@ export const subscribeBundle: RequestHandler = (req, res) => {
   const response: SubscribeBundleResponse = {
     success: true,
     message: `Bundle ${nccId} successfully subscribed for MSISDN ${msisdn}`,
-    subscriptionId: `SUB_${Date.now()}_${Math.floor(Math.random() * 1000)}`
+    subscriptionId: `SUB_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
   };
 
   res.json(response);

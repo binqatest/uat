@@ -1,15 +1,52 @@
-import { useState } from 'react';
-import Layout from '@/components/Layout';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { XCircle, Smartphone, AlertCircle, CheckCircle, Search, Trash2, AlertTriangle, Home } from 'lucide-react';
+import { useState } from "react";
+import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+  XCircle,
+  Smartphone,
+  AlertCircle,
+  CheckCircle,
+  Search,
+  Trash2,
+  AlertTriangle,
+  Home,
+} from "lucide-react";
 
 interface BundleDetail {
   id: string;
@@ -36,11 +73,11 @@ const PageTitle = () => {
 };
 
 // Fetch Form Component
-const FetchForm = ({ 
-  phoneNumber, 
-  setPhoneNumber, 
-  onSubmit, 
-  loading 
+const FetchForm = ({
+  phoneNumber,
+  setPhoneNumber,
+  onSubmit,
+  loading,
 }: {
   phoneNumber: string;
   setPhoneNumber: (value: string) => void;
@@ -102,11 +139,11 @@ const FetchForm = ({
 };
 
 // Alert Component
-const AlertComponent = ({ 
-  messages, 
-  statusCode 
-}: { 
-  messages: string; 
+const AlertComponent = ({
+  messages,
+  statusCode,
+}: {
+  messages: string;
   statusCode: number | null;
 }) => {
   if (!messages) return null;
@@ -115,9 +152,9 @@ const AlertComponent = ({
   const isError = statusCode && statusCode >= 400;
 
   return (
-    <Alert 
-      variant={isError ? 'destructive' : 'default'}
-      className={isSuccess ? 'border-green-200 bg-green-50 text-green-800' : ''}
+    <Alert
+      variant={isError ? "destructive" : "default"}
+      className={isSuccess ? "border-green-200 bg-green-50 text-green-800" : ""}
     >
       {isSuccess ? (
         <CheckCircle className="h-4 w-4" />
@@ -137,21 +174,23 @@ const AlertComponent = ({
 };
 
 // Bundles Table Component
-const BundlesTable = ({ 
-  bundlesDetails, 
-  onDeleteBundle, 
-  loading 
+const BundlesTable = ({
+  bundlesDetails,
+  onDeleteBundle,
+  loading,
 }: {
   bundlesDetails: BundleDetail[];
   onDeleteBundle: (bundle: BundleDetail) => void;
   loading: boolean;
 }) => {
-  const [selectedBundle, setSelectedBundle] = useState<BundleDetail | null>(null);
+  const [selectedBundle, setSelectedBundle] = useState<BundleDetail | null>(
+    null,
+  );
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const handleDelete = async () => {
     if (!selectedBundle) return;
-    
+
     setDeleteLoading(true);
     try {
       await onDeleteBundle(selectedBundle);
@@ -187,9 +226,7 @@ const BundlesTable = ({
           <XCircle className="h-5 w-5" />
           Bundle Details ({bundlesDetails.length} found)
         </CardTitle>
-        <CardDescription>
-          Active bundles available for removal
-        </CardDescription>
+        <CardDescription>Active bundles available for removal</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
@@ -212,7 +249,9 @@ const BundlesTable = ({
                   <TableCell>
                     <div>
                       <p className="font-medium">{bundle.bundleName}</p>
-                      <p className="text-xs text-muted-foreground">NCC ID: {bundle.nccId}</p>
+                      <p className="text-xs text-muted-foreground">
+                        NCC ID: {bundle.nccId}
+                      </p>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -220,28 +259,36 @@ const BundlesTable = ({
                   </TableCell>
                   <TableCell>{bundle.subscriptionDate}</TableCell>
                   <TableCell>{bundle.expiryDate}</TableCell>
-                  <TableCell className="font-medium">{bundle.remaining}</TableCell>
+                  <TableCell className="font-medium">
+                    {bundle.remaining}
+                  </TableCell>
                   <TableCell>
-                    <Badge className={
-                      bundle.status === 'ACTIVE' ? 'bg-green-100 text-green-800' :
-                      bundle.status === 'DELETED' ? 'bg-red-100 text-red-800' :
-                      'bg-yellow-100 text-yellow-800'
-                    }>
+                    <Badge
+                      className={
+                        bundle.status === "ACTIVE"
+                          ? "bg-green-100 text-green-800"
+                          : bundle.status === "DELETED"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-yellow-100 text-yellow-800"
+                      }
+                    >
                       {bundle.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="font-medium">KES {bundle.price.toFixed(2)}</TableCell>
+                  <TableCell className="font-medium">
+                    KES {bundle.price.toFixed(2)}
+                  </TableCell>
                   <TableCell>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button 
-                          variant="destructive" 
+                        <Button
+                          variant="destructive"
                           size="sm"
-                          disabled={bundle.status === 'DELETED' || loading}
+                          disabled={bundle.status === "DELETED" || loading}
                           onClick={() => setSelectedBundle(bundle)}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
-                          {bundle.status === 'DELETED' ? 'Deleted' : 'Delete'}
+                          {bundle.status === "DELETED" ? "Deleted" : "Delete"}
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
@@ -251,21 +298,21 @@ const BundlesTable = ({
                             Confirm Bundle Deletion
                           </DialogTitle>
                           <DialogDescription>
-                            Are you sure you want to delete this bundle? This action cannot be undone.
+                            Are you sure you want to delete this bundle? This
+                            action cannot be undone.
                           </DialogDescription>
                         </DialogHeader>
-                        
 
                         <DialogFooter>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             onClick={() => setSelectedBundle(null)}
                             disabled={deleteLoading}
                           >
                             Cancel
                           </Button>
-                          <Button 
-                            variant="destructive" 
+                          <Button
+                            variant="destructive"
                             onClick={handleDelete}
                             disabled={deleteLoading}
                           >
@@ -275,7 +322,7 @@ const BundlesTable = ({
                                 Deleting...
                               </div>
                             ) : (
-                              'Delete Bundle'
+                              "Delete Bundle"
                             )}
                           </Button>
                         </DialogFooter>
@@ -293,8 +340,8 @@ const BundlesTable = ({
 };
 
 export default function RemoveBundle() {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [messages, setMessages] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [messages, setMessages] = useState("");
   const [bundlesDetails, setBundlesDetails] = useState<BundleDetail[]>([]);
   const [statusCode, setStatusCode] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
@@ -304,82 +351,83 @@ export default function RemoveBundle() {
   // Mock bundle data
   const mockBundles: BundleDetail[] = [
     {
-      id: 'B001',
-      bundleName: 'Data Starter 1GB',
-      bundleType: 'Data',
-      subscriptionDate: '2024-01-10',
-      expiryDate: '2024-02-09',
-      remaining: '756 MB',
-      status: 'ACTIVE',
-      price: 99.00,
-      nccId: 'CBU001'
+      id: "B001",
+      bundleName: "Data Starter 1GB",
+      bundleType: "Data",
+      subscriptionDate: "2024-01-10",
+      expiryDate: "2024-02-09",
+      remaining: "756 MB",
+      status: "ACTIVE",
+      price: 99.0,
+      nccId: "CBU001",
     },
     {
-      id: 'B002',
-      bundleName: 'Voice & SMS Combo',
-      bundleType: 'Voice',
-      subscriptionDate: '2024-01-13',
-      expiryDate: '2024-01-20',
-      remaining: '234 mins, 567 SMS',
-      status: 'ACTIVE',
-      price: 150.00,
-      nccId: 'EBU002'
+      id: "B002",
+      bundleName: "Voice & SMS Combo",
+      bundleType: "Voice",
+      subscriptionDate: "2024-01-13",
+      expiryDate: "2024-01-20",
+      remaining: "234 mins, 567 SMS",
+      status: "ACTIVE",
+      price: 150.0,
+      nccId: "EBU002",
     },
     {
-      id: 'B003',
-      bundleName: 'Weekend Data 5GB',
-      bundleType: 'Data',
-      subscriptionDate: '2024-01-14',
-      expiryDate: '2024-01-17',
-      remaining: '3.2 GB',
-      status: 'ACTIVE',
-      price: 199.00,
-      nccId: 'CBU003'
+      id: "B003",
+      bundleName: "Weekend Data 5GB",
+      bundleType: "Data",
+      subscriptionDate: "2024-01-14",
+      expiryDate: "2024-01-17",
+      remaining: "3.2 GB",
+      status: "ACTIVE",
+      price: 199.0,
+      nccId: "CBU003",
     },
     {
-      id: 'B004',
-      bundleName: 'International Bundle',
-      bundleType: 'Voice',
-      subscriptionDate: '2024-01-12',
-      expiryDate: '2024-02-11',
-      remaining: '180 mins',
-      status: 'DELETED',
-      price: 500.00,
-      nccId: 'ROM004'
-    }
+      id: "B004",
+      bundleName: "International Bundle",
+      bundleType: "Voice",
+      subscriptionDate: "2024-01-12",
+      expiryDate: "2024-02-11",
+      remaining: "180 mins",
+      status: "DELETED",
+      price: 500.0,
+      nccId: "ROM004",
+    },
   ];
 
   const handleFetchBundles = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setMessages('');
+    setMessages("");
     setStatusCode(null);
     setBundlesDetails([]);
     setHasSearched(false);
 
     try {
       if (!phoneNumber.trim()) {
-        setMessages('Phone number is required');
+        setMessages("Phone number is required");
         setStatusCode(400);
         setLoading(false);
         return;
       }
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      if (Math.random() > 0.1) { // 90% success rate
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      if (Math.random() > 0.1) {
+        // 90% success rate
         setBundlesDetails(mockBundles);
         setMessages(`Successfully fetched bundles for ${phoneNumber}`);
         setStatusCode(200);
         setHasSearched(true);
       } else {
-        setMessages('Phone number not found or no active bundles.');
+        setMessages("Phone number not found or no active bundles.");
         setStatusCode(404);
         setHasSearched(true);
       }
     } catch (error) {
-      setMessages('Failed to fetch bundle information.');
+      setMessages("Failed to fetch bundle information.");
       setStatusCode(500);
       setHasSearched(true);
     } finally {
@@ -390,24 +438,29 @@ export default function RemoveBundle() {
   const handleDeleteBundle = async (bundle: BundleDetail) => {
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      if (Math.random() > 0.05) { // 95% success rate
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      if (Math.random() > 0.05) {
+        // 95% success rate
         // Update bundle status to DELETED
-        setBundlesDetails(prev => prev.map(b => 
-          b.id === bundle.id 
-            ? { ...b, status: 'DELETED' }
-            : b
-        ));
-        
-        setMessages(`Successfully deleted bundle: ${bundle.bundleName} for ${phoneNumber}`);
+        setBundlesDetails((prev) =>
+          prev.map((b) =>
+            b.id === bundle.id ? { ...b, status: "DELETED" } : b,
+          ),
+        );
+
+        setMessages(
+          `Successfully deleted bundle: ${bundle.bundleName} for ${phoneNumber}`,
+        );
         setStatusCode(200);
       } else {
-        setMessages(`Failed to delete bundle: ${bundle.bundleName}. Please try again.`);
+        setMessages(
+          `Failed to delete bundle: ${bundle.bundleName}. Please try again.`,
+        );
         setStatusCode(500);
       }
     } catch (error) {
-      setMessages('An error occurred while deleting the bundle.');
+      setMessages("An error occurred while deleting the bundle.");
       setStatusCode(500);
     }
   };
@@ -416,25 +469,32 @@ export default function RemoveBundle() {
     try {
       setDeleteLoading(true);
       // Simulate API call for deleting all bundles
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      if (Math.random() > 0.05) { // 95% success rate
+      if (Math.random() > 0.05) {
+        // 95% success rate
         // Update all active bundles to DELETED status
-        setBundlesDetails(prev => prev.map(bundle =>
-          bundle.status === 'ACTIVE'
-            ? { ...bundle, status: 'DELETED' }
-            : bundle
-        ));
+        setBundlesDetails((prev) =>
+          prev.map((bundle) =>
+            bundle.status === "ACTIVE"
+              ? { ...bundle, status: "DELETED" }
+              : bundle,
+          ),
+        );
 
-        const activeBundlesCount = bundlesDetails.filter(b => b.status === 'ACTIVE').length;
-        setMessages(`Successfully deleted all ${activeBundlesCount} active bundles for ${phoneNumber}`);
+        const activeBundlesCount = bundlesDetails.filter(
+          (b) => b.status === "ACTIVE",
+        ).length;
+        setMessages(
+          `Successfully deleted all ${activeBundlesCount} active bundles for ${phoneNumber}`,
+        );
         setStatusCode(200);
       } else {
-        setMessages('Failed to delete all bundles. Please try again.');
+        setMessages("Failed to delete all bundles. Please try again.");
         setStatusCode(500);
       }
     } catch (error) {
-      setMessages('An error occurred while deleting all bundles.');
+      setMessages("An error occurred while deleting all bundles.");
       setStatusCode(500);
     } finally {
       setDeleteLoading(false);
@@ -464,7 +524,7 @@ export default function RemoveBundle() {
         <PageTitle />
 
         {/* Fetch Form */}
-        <FetchForm 
+        <FetchForm
           phoneNumber={phoneNumber}
           setPhoneNumber={setPhoneNumber}
           onSubmit={handleFetchBundles}
@@ -472,10 +532,7 @@ export default function RemoveBundle() {
         />
 
         {/* Alert Component */}
-        <AlertComponent 
-          messages={messages}
-          statusCode={statusCode}
-        />
+        <AlertComponent messages={messages} statusCode={statusCode} />
 
         {/* Bundles Table */}
         {/* Bundle Details Table - Only show after successful search */}
@@ -511,7 +568,8 @@ export default function RemoveBundle() {
                         Confirm Delete All Bundles
                       </DialogTitle>
                       <DialogDescription>
-                        Are you sure you want to delete ALL bundles? This action cannot be undone.
+                        Are you sure you want to delete ALL bundles? This action
+                        cannot be undone.
                       </DialogDescription>
                     </DialogHeader>
 
@@ -543,7 +601,6 @@ export default function RemoveBundle() {
             </CardContent>
           </Card>
         )}
-
       </div>
     </Layout>
   );

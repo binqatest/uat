@@ -11,7 +11,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import {
   PlusCircle,
   Smartphone,
@@ -50,14 +57,14 @@ export default function SubscribeBundle() {
 
     try {
       // Call the backend API
-      const response = await fetch('/api/bundle-subscribe', {
-        method: 'POST',
+      const response = await fetch("/api/bundle-subscribe", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           msisdn: phoneNumber,
-          nccId: bundleId 
+          nccId: bundleId,
         }),
       });
 
@@ -69,7 +76,7 @@ export default function SubscribeBundle() {
           phoneNumber: phoneNumber,
           transactionId: data.subscriptionId,
           activationTime: new Date().toLocaleString(),
-          status: "Active"
+          status: "Active",
         };
 
         setSubscriptionResult(mockResult);
@@ -86,7 +93,9 @@ export default function SubscribeBundle() {
         setError(data.message || "Subscription failed. Please try again.");
       }
     } catch (err) {
-      setError("Subscription failed. Please check your connection and try again.");
+      setError(
+        "Subscription failed. Please check your connection and try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -151,11 +160,30 @@ export default function SubscribeBundle() {
                           Subscription Successful!
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                          <p><span className="font-medium">Phone Number:</span> {subscriptionResult.phoneNumber}</p>
-                          <p><span className="font-medium">Bundle ID:</span> {subscriptionResult.bundleId}</p>
-                          <p><span className="font-medium">Transaction ID:</span> {subscriptionResult.transactionId}</p>
-                          <p><span className="font-medium">Activation Time:</span> {subscriptionResult.activationTime}</p>
-                          <p><span className="font-medium">Status:</span> <span className="text-green-600">{subscriptionResult.status}</span></p>
+                          <p>
+                            <span className="font-medium">Phone Number:</span>{" "}
+                            {subscriptionResult.phoneNumber}
+                          </p>
+                          <p>
+                            <span className="font-medium">Bundle ID:</span>{" "}
+                            {subscriptionResult.bundleId}
+                          </p>
+                          <p>
+                            <span className="font-medium">Transaction ID:</span>{" "}
+                            {subscriptionResult.transactionId}
+                          </p>
+                          <p>
+                            <span className="font-medium">
+                              Activation Time:
+                            </span>{" "}
+                            {subscriptionResult.activationTime}
+                          </p>
+                          <p>
+                            <span className="font-medium">Status:</span>{" "}
+                            <span className="text-green-600">
+                              {subscriptionResult.status}
+                            </span>
+                          </p>
                         </div>
                       </div>
                     </AlertDescription>
@@ -182,7 +210,10 @@ export default function SubscribeBundle() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="bundleId" className="flex items-center gap-2 text-base">
+                  <Label
+                    htmlFor="bundleId"
+                    className="flex items-center gap-2 text-base"
+                  >
                     <Package className="h-4 w-4" />
                     Insert Bundle ID *
                   </Label>

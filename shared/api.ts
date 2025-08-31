@@ -32,10 +32,10 @@ export interface BundleInfo {
   fee: number;
   id: string;
   customData: Record<string, any>;
-  
+
   // Period Lifecycle Information
   plc?: PeriodLifecycleInfo;
-  
+
   // Charging Logic
   chargingLogic?: ChargingLogicInfo[];
 }

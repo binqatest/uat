@@ -70,205 +70,307 @@ const App = () => (
             <Route path="/unauthorized" element={<Unauthorized />} />
 
             {/* Protected routes */}
-            <Route path="/" element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/bundle_page/:category" element={
-              <ProtectedRoute>
-                <BundlePage />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/bundle_page/:category"
+              element={
+                <ProtectedRoute>
+                  <BundlePage />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/balance" element={
-              <ProtectedRoute>
-                <Balance />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/balance"
+              element={
+                <ProtectedRoute>
+                  <Balance />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/bundles" element={
-              <ProtectedRoute>
-                <Bundles />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/bundles"
+              element={
+                <ProtectedRoute>
+                  <Bundles />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/notifications" element={
-              <ProtectedRoute businessOnly>
-                <Notifications />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/notifications"
+              element={
+                <ProtectedRoute businessOnly>
+                  <Notifications />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Notifications */}
-            <Route path="/master_notification_list" element={
-              <ProtectedRoute businessOnly>
-                <MasterNotificationList />
-              </ProtectedRoute>
-            } />
-            <Route path="/master_notification_add" element={
-              <ProtectedRoute businessOnly>
-                <MasterNotificationAdd />
-              </ProtectedRoute>
-            } />
-            <Route path="/master_notification/:id" element={
-              <ProtectedRoute businessOnly>
-                <MasterNotificationDetail />
-              </ProtectedRoute>
-            } />
-            <Route path="/notification_list" element={
-              <ProtectedRoute businessOnly>
-                <NotificationList />
-              </ProtectedRoute>
-            } />
-            <Route path="/notification/:id" element={
-              <ProtectedRoute businessOnly>
-                <NotificationDetail />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/master_notification_list"
+              element={
+                <ProtectedRoute businessOnly>
+                  <MasterNotificationList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/master_notification_add"
+              element={
+                <ProtectedRoute businessOnly>
+                  <MasterNotificationAdd />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/master_notification/:id"
+              element={
+                <ProtectedRoute businessOnly>
+                  <MasterNotificationDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/notification_list"
+              element={
+                <ProtectedRoute businessOnly>
+                  <NotificationList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/notification/:id"
+              element={
+                <ProtectedRoute businessOnly>
+                  <NotificationDetail />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Balance Management Routes */}
-            <Route path="/adjust_balance" element={
-              <ProtectedRoute businessOnly>
-                <AdjustBalance />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/adjust_balance"
+              element={
+                <ProtectedRoute businessOnly>
+                  <AdjustBalance />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/recharge_pin" element={
-              <ProtectedRoute>
-                <VoucherRecharge />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/recharge_pin"
+              element={
+                <ProtectedRoute>
+                  <VoucherRecharge />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/voucher_recharge" element={
-              <ProtectedRoute>
-                <VoucherRecharge />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/voucher_recharge"
+              element={
+                <ProtectedRoute>
+                  <VoucherRecharge />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/recharge_pinless" element={
-              <ProtectedRoute>
-                <PinlessRecharge />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/recharge_pinless"
+              element={
+                <ProtectedRoute>
+                  <PinlessRecharge />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/update_and_balance_info" element={
-              <ProtectedRoute>
-                <CheckBalance />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/update_and_balance_info"
+              element={
+                <ProtectedRoute>
+                  <CheckBalance />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Bundle Management Routes */}
-            <Route path="/bundle_info" element={
-              <ProtectedRoute>
-                <BundleDetails />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/bundle_info"
+              element={
+                <ProtectedRoute>
+                  <BundleDetails />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/subscribe_bundle" element={
-              <ProtectedRoute>
-                <SubscribeBundle />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/subscribe_bundle"
+              element={
+                <ProtectedRoute>
+                  <SubscribeBundle />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/remove_bundle" element={
-              <ProtectedRoute>
-                <RemoveBundle />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/remove_bundle"
+              element={
+                <ProtectedRoute>
+                  <RemoveBundle />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/update_bundle" element={
-              <ProtectedRoute>
-                <UpdateResources />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/update_bundle"
+              element={
+                <ProtectedRoute>
+                  <UpdateResources />
+                </ProtectedRoute>
+              }
+            />
 
             {/* New Bundle Management */}
-            <Route path="/gift_bundle" element={
-              <ProtectedRoute>
-                <GiftBundle />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/gift_bundle"
+              element={
+                <ProtectedRoute>
+                  <GiftBundle />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/loan_bundle" element={
-              <ProtectedRoute>
-                <LoanBundle />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/loan_bundle"
+              element={
+                <ProtectedRoute>
+                  <LoanBundle />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/subscribed_bundles" element={
-              <ProtectedRoute>
-                <SubscribedBundles />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/subscribed_bundles"
+              element={
+                <ProtectedRoute>
+                  <SubscribedBundles />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/cvm_bundle" element={
-              <ProtectedRoute>
-                <CVMBundle />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/cvm_bundle"
+              element={
+                <ProtectedRoute>
+                  <CVMBundle />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/messages-template" element={
-              <ProtectedRoute>
-                <MessagesTemplate />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/messages-template"
+              element={
+                <ProtectedRoute>
+                  <MessagesTemplate />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Utilities Routes */}
-            <Route path="/unit_convertion" element={
-              <ProtectedRoute adminOnly>
-                <UnitConversion />
-              </ProtectedRoute>
-            } />
-            <Route path="/tax_cal" element={
-              <ProtectedRoute adminOnly>
-                <TaxCalculator />
-              </ProtectedRoute>
-            } />
-            <Route path="/bundle_list_new" element={
-              <ProtectedRoute adminOnly>
-                <BundleConfigGenerator />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/unit_convertion"
+              element={
+                <ProtectedRoute adminOnly>
+                  <UnitConversion />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tax_cal"
+              element={
+                <ProtectedRoute adminOnly>
+                  <TaxCalculator />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/bundle_list_new"
+              element={
+                <ProtectedRoute adminOnly>
+                  <BundleConfigGenerator />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Rates */}
-            <Route path="/roaming_rate_upload" element={
-              <ProtectedRoute adminOnly>
-                <RoamingRateUpload />
-              </ProtectedRoute>
-            } />
-            <Route path="/roaming_rates" element={
-              <ProtectedRoute adminOnly>
-                <RoamingRates />
-              </ProtectedRoute>
-            } />
-            <Route path="/rate_mapping_table" element={
-              <ProtectedRoute adminOnly>
-                <RateMappingTable />
-              </ProtectedRoute>
-            } />
-            <Route path="/rate_mapping_compare" element={
-              <ProtectedRoute adminOnly>
-                <RateMappingCompare />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/roaming_rate_upload"
+              element={
+                <ProtectedRoute adminOnly>
+                  <RoamingRateUpload />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/roaming_rates"
+              element={
+                <ProtectedRoute adminOnly>
+                  <RoamingRates />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rate_mapping_table"
+              element={
+                <ProtectedRoute adminOnly>
+                  <RateMappingTable />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rate_mapping_compare"
+              element={
+                <ProtectedRoute adminOnly>
+                  <RateMappingCompare />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Users */}
-            <Route path="/user_management" element={
-              <ProtectedRoute adminOnly>
-                <UserManagement />
-              </ProtectedRoute>
-            } />
-            <Route path="/registration" element={
-              <ProtectedRoute adminOnly>
-                <Registration />
-              </ProtectedRoute>
-            } />
-            <Route path="/edit_user/:id" element={
-              <ProtectedRoute adminOnly>
-                <EditUser />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/user_management"
+              element={
+                <ProtectedRoute adminOnly>
+                  <UserManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/registration"
+              element={
+                <ProtectedRoute adminOnly>
+                  <Registration />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/edit_user/:id"
+              element={
+                <ProtectedRoute adminOnly>
+                  <EditUser />
+                </ProtectedRoute>
+              }
+            />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

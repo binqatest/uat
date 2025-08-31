@@ -1,22 +1,42 @@
-import Layout from '@/components/Layout';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Search, 
-  Smartphone, 
-  AlertCircle, 
-  CheckCircle, 
-  Package, 
-  Home, 
-  List 
-} from 'lucide-react';
-import { useEffect, useState } from 'react';
+import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Search,
+  Smartphone,
+  AlertCircle,
+  CheckCircle,
+  Package,
+  Home,
+  List,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface SubscribedBundle {
   bundleName: string;
@@ -70,12 +90,20 @@ const BundlesTable = ({ bundles }: { bundles: SubscribedBundle[] }) => {
             <TableBody>
               {bundles.map((bundle, idx) => (
                 <TableRow key={idx}>
-                  <TableCell className="font-medium">{bundle.bundleName}</TableCell>
+                  <TableCell className="font-medium">
+                    {bundle.bundleName}
+                  </TableCell>
                   <TableCell>{bundle.bucketName}</TableCell>
                   <TableCell>
-                    <Badge 
-                      variant={bundle.status === 'Active' ? 'default' : 'secondary'}
-                      className={bundle.status === 'Active' ? 'bg-green-100 text-green-800' : ''}
+                    <Badge
+                      variant={
+                        bundle.status === "Active" ? "default" : "secondary"
+                      }
+                      className={
+                        bundle.status === "Active"
+                          ? "bg-green-100 text-green-800"
+                          : ""
+                      }
                     >
                       {bundle.status}
                     </Badge>
@@ -92,7 +120,7 @@ const BundlesTable = ({ bundles }: { bundles: SubscribedBundle[] }) => {
 };
 
 export default function SubscribedBundles() {
-  const [msisdn, setMsisdn] = useState('');
+  const [msisdn, setMsisdn] = useState("");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -105,29 +133,36 @@ export default function SubscribedBundles() {
     setBundles(null);
 
     if (!msisdnRegex.test(msisdn)) {
-      setError('Please enter a valid MSISDN format (8-15 digits).');
+      setError("Please enter a valid MSISDN format (8-15 digits).");
       return;
     }
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/subscriptions?msisdn=${encodeURIComponent(msisdn)}`);
+      const res = await fetch(
+        `/api/subscriptions?msisdn=${encodeURIComponent(msisdn)}`,
+      );
       const data = await res.json();
-      
+
       if (!res.ok) {
-        throw new Error(data?.error || 'Failed to fetch subscriptions');
+        throw new Error(data?.error || "Failed to fetch subscriptions");
       }
-      
+
       const bundleList = data?.items || [];
       setBundles(bundleList);
-      
+
       if (bundleList.length === 0) {
         setSuccessMessage(`No subscribed bundles found for ${msisdn}.`);
       } else {
-        setSuccessMessage(`Found ${bundleList.length} subscribed bundle${bundleList.length !== 1 ? 's' : ''} for ${msisdn}.`);
+        setSuccessMessage(
+          `Found ${bundleList.length} subscribed bundle${bundleList.length !== 1 ? "s" : ""} for ${msisdn}.`,
+        );
       }
     } catch (err: any) {
-      setError(err.message || 'Failed to retrieve subscribed bundles. Please try again.');
+      setError(
+        err.message ||
+          "Failed to retrieve subscribed bundles. Please try again.",
+      );
       setBundles(null);
     } finally {
       setLoading(false);
@@ -202,19 +237,19 @@ export default function SubscribedBundles() {
                     <Smartphone className="h-4 w-4" />
                     MSISDN
                   </Label>
-                  <Input 
-                    id="msisdn" 
+                  <Input
+                    id="msisdn"
                     type="tel"
-                    value={msisdn} 
-                    onChange={(e) => setMsisdn(e.target.value)} 
-                    placeholder="e.g., +254712345678" 
-                    required 
+                    value={msisdn}
+                    onChange={(e) => setMsisdn(e.target.value)}
+                    placeholder="e.g., +254712345678"
+                    required
                   />
                 </div>
                 <div className="flex md:col-span-1">
-                  <Button 
-                    type="submit" 
-                    disabled={loading || !msisdn} 
+                  <Button
+                    type="submit"
+                    disabled={loading || !msisdn}
                     className="w-full bg-brand hover:bg-brand-600"
                   >
                     {loading ? (

@@ -10,6 +10,7 @@ import { listMasterNotifications, createMasterNotification, getMasterNotificatio
 import { listNotifications, getNotification, updateNotification, deleteNotification, regenerateNotification, downloadNotification } from "./routes/notifications";
 import { uploadRoamingRates, getRoamingRates, downloadRoamingExcel, downloadRateIdsZip, getMappingTable, downloadMappingCsv, compareMappingTables } from "./routes/rates";
 import { listUsers, createUser, getUser, updateUser, deleteUser } from "./routes/users";
+import { getBundleDetails, getNotificationMessages, subscribeBundle } from "./routes/bundle-details";
 
 export function createServer() {
   const app = express();
@@ -33,6 +34,11 @@ export function createServer() {
   app.get("/api/subscriptions", handleSubscriptions);
   app.get("/api/cvm/bundles/:bundleId", handleGetCvmBuckets);
   app.post("/api/cvm/subscribe", handleCvmSubscribe);
+
+  // Bundle Details APIs
+  app.get("/api/bundle-details", getBundleDetails);
+  app.get("/api/notification-messages", getNotificationMessages);
+  app.post("/api/bundle-subscribe", subscribeBundle);
 
   // Master Notifications
   app.get("/api/master-notifications", listMasterNotifications);

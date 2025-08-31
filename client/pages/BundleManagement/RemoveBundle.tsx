@@ -471,62 +471,6 @@ export default function RemoveBundle() {
           loading={loading}
         />
 
-        {/* Information Section */}
-        {bundlesDetails.length === 0 && !loading && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">How It Works</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm text-muted-foreground space-y-2">
-                  <p>1. Enter customer MSISDN</p>
-                  <p>2. Click "Fetch Bundles" to search</p>
-                  <p>3. Review active bundles</p>
-                  <p>4. Click "Delete" to remove bundle</p>
-                  <p>5. Confirm deletion in dialog</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Important Notes</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <p>• Bundle removal is permanent</p>
-                  <p>• Deleted bundles cannot be restored</p>
-                  <p>• Customer will be notified via SMS</p>
-                  <p>• Unused value may be refunded</p>
-                  <p>• Already deleted bundles are disabled</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Bundle Status</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Badge className="bg-green-100 text-green-800">ACTIVE</Badge>
-                    <span className="text-muted-foreground">Can be deleted</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge className="bg-red-100 text-red-800">DELETED</Badge>
-                    <span className="text-muted-foreground">Already removed</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge className="bg-yellow-100 text-yellow-800">EXPIRED</Badge>
-                    <span className="text-muted-foreground">Automatically expired</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
       </div>
     </Layout>
   );

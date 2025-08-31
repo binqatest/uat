@@ -139,44 +139,61 @@ export default function MessagesTemplate() {
         {messages && !loading && (
           <div className="space-y-4">
             {Object.entries(messages.messagesByChannel).length > 0 ? (
-              Object.entries(messages.messagesByChannel).map(([channel, channelMessages]) => (
-                <Card key={channel} className="shadow-md">
-                  <CardHeader className="border-l-4 border-l-brand bg-gradient-to-r from-brand/5 to-transparent">
-                    <CardTitle className="flex items-center gap-2">
-                      <Bell className="h-5 w-5" />
-                      {channel}
-                    </CardTitle>
-                    <CardDescription>
-                      {channelMessages.length} message{channelMessages.length !== 1 ? 's' : ''} for this channel
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-4">
-                    <div className="space-y-3">
-                      {channelMessages.map((message, index) => (
-                        <div key={index}>
-                          <div className="flex items-center justify-between mb-2">
-                            <Badge variant="outline" className="text-xs">
-                              Message #{index + 1}
-                            </Badge>
-                            <span className="text-xs text-muted-foreground">
-                              {channel} Template
-                            </span>
-                          </div>
-                          <Textarea
-                            value={message}
-                            readOnly
-                            className="min-h-[80px] resize-none bg-muted/30 border-muted"
-                            placeholder="No message content"
-                          />
-                          {index < channelMessages.length - 1 && (
-                            <Separator className="mt-3" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
+              Object.entries(messages.messagesByChannel).map(([channel, channelMessages]) => {
+                // Language mapping for display
+                const languages = ['English', 'Amharic', 'Oromo', 'Tigrinya', 'Somali', 'Afar'];
+
+                return (
+                  <Card key={channel} className="shadow-md">
+                    <CardHeader className="border-l-4 border-l-brand bg-gradient-to-r from-brand/5 to-transparent">
+                      <CardTitle className="flex items-center gap-2">
+                        <Bell className="h-5 w-5" />
+                        {channel} Channel
+                      </CardTitle>
+                      <CardDescription>
+                        Messages in {channelMessages.length} language{channelMessages.length !== 1 ? 's' : ''} - ({languages.slice(0, channelMessages.length).join(', ')})
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-4">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        {channelMessages.map((message, index) => {
+                          const language = languages[index] || `Language ${index + 1}`;
+                          const languageColors = {
+                            'English': 'bg-blue-100 text-blue-800 border-blue-200',
+                            'Amharic': 'bg-green-100 text-green-800 border-green-200',
+                            'Oromo': 'bg-yellow-100 text-yellow-800 border-yellow-200',
+                            'Tigrinya': 'bg-purple-100 text-purple-800 border-purple-200',
+                            'Somali': 'bg-orange-100 text-orange-800 border-orange-200',
+                            'Afar': 'bg-red-100 text-red-800 border-red-200'
+                          };
+
+                          return (
+                            <div key={index} className="space-y-2">
+                              <div className="flex items-center justify-between">
+                                <Badge
+                                  variant="outline"
+                                  className={`${languageColors[language as keyof typeof languageColors] || 'bg-gray-100 text-gray-800'} font-medium`}
+                                >
+                                  {language}
+                                </Badge>
+                                <span className="text-xs text-muted-foreground">
+                                  {channel} Template
+                                </span>
+                              </div>
+                              <Textarea
+                                value={message}
+                                readOnly
+                                className="min-h-[100px] resize-none bg-muted/30 border-muted text-sm"
+                                placeholder="No message content"
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })
             ) : (
               <Card>
                 <CardContent className="p-6">

@@ -141,24 +141,31 @@ export const getNotificationMessages: RequestHandler = (req, res) => {
     });
   }
 
+  // Generate messages for each language
+  const generateSMSMessages = (nccId: string) => ({
+    "English": `Dear customer, your ${nccId} bundle has been activated successfully.`,
+    "Amharic": `ውድ ደንበኛ፣ የእርስዎ ${nccId} ጥቅል በተሳካ ሁኔታ ተነቅቷል።`,
+    "Oromo": `Maamila jaalala, paakeejiin ${nccId} keessan milkaa'inaan hojjetameera.`,
+    "Tigrinya": `ውድ ዓሚል፣ እቲ ${nccId} ፓኬጅኩም ብዓወት ተቐስቢሩ።`,
+    "Somali": `Macamiil qaaliga ah, xirmada ${nccId} ayaa si guul leh loo hawlgeliyay.`,
+    "Afar": `Yaabat maali, ${nccId} garbak-t raha oofin-t waqay.`
+  });
+
+  const generateKafikaMessages = (nccId: string) => ({
+    "English": `Notification: Your ${nccId} bundle is ready. Check balance with *123#.`,
+    "Amharic": `ማሳወቂያ፡ የእርስዎ ${nccId} ጥቅል ዝግጁ ነው። ሚዛኑን በ*123# ይመልከቱ።`,
+    "Oromo": `Beeksisa: Paakeejiin ${nccId} keessan qophaa'eera. Madaala *123# tiin ilaalaa.`,
+    "Tigrinya": `መግለጺ፡ እቲ ${nccId} ፓኬጅኩም ድሉው እዩ። ሚዛን ብ*123# ተዓዘብዎ።`,
+    "Somali": `Ogeysiis: Xirmada ${nccId} ayaa diyaar. Miisaanka *123# ku eeg.`,
+    "Afar": `Maatit: ${nccId} garbak-t digay. Miisan-t *123# teela.`
+  });
+
   const response: NotificationMessagesResponse = {
     nccId,
     notificationId,
     messagesByChannel: {
-      SMS: [
-        `Dear customer, your ${nccId} bundle has been activated successfully.`,
-        `You have remaining balance in your ${nccId} bundle. Check *123# for details.`
-      ],
-      Email: [
-        `Your ${nccId} bundle subscription is now active. Thank you for choosing our services.`
-      ],
-      Push: [
-        `${nccId} Bundle Activated`,
-        `Bundle ${nccId} expires in 30 days`
-      ],
-      ...(Math.random() > 0.5 ? {
-        USSD: [`*123*${nccId}# - Check bundle status`]
-      } : {})
+      SMS: Object.values(generateSMSMessages(nccId)),
+      Kafika: Object.values(generateKafikaMessages(nccId))
     }
   };
 

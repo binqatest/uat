@@ -122,7 +122,7 @@ export default function SubscribeBundle() {
         </div>
 
         {/* Subscription Form */}
-        <div className="max-w-2xl mx-auto">
+        <div>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

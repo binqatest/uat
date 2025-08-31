@@ -406,6 +406,35 @@ export default function RemoveBundle() {
     }
   };
 
+  const handleDeleteAllBundles = async () => {
+    try {
+      setDeleteLoading(true);
+      // Simulate API call for deleting all bundles
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      if (Math.random() > 0.05) { // 95% success rate
+        // Update all active bundles to DELETED status
+        setBundlesDetails(prev => prev.map(bundle =>
+          bundle.status === 'ACTIVE'
+            ? { ...bundle, status: 'DELETED' }
+            : bundle
+        ));
+
+        const activeBundlesCount = bundlesDetails.filter(b => b.status === 'ACTIVE').length;
+        setMessages(`Successfully deleted all ${activeBundlesCount} active bundles for ${phoneNumber}`);
+        setStatusCode(200);
+      } else {
+        setMessages('Failed to delete all bundles. Please try again.');
+        setStatusCode(500);
+      }
+    } catch (error) {
+      setMessages('An error occurred while deleting all bundles.');
+      setStatusCode(500);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
   return (
     <Layout>
       <div className="space-y-6">

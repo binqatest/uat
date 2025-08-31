@@ -483,25 +483,53 @@ export default function RemoveBundle() {
           <Card>
             <CardContent className="pt-6">
               <div className="flex justify-center">
-                <Button
-                  variant="destructive"
-                  size="lg"
-                  onClick={handleDeleteAllBundles}
-                  disabled={loading || deleteLoading}
-                  className="min-w-[200px]"
-                >
-                  {deleteLoading ? (
-                    <div className="flex items-center gap-2">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                      Deleting All...
-                    </div>
-                  ) : (
-                    <>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      size="lg"
+                      disabled={loading || deleteLoading}
+                      className="min-w-[200px]"
+                    >
                       <Trash2 className="h-4 w-4 mr-2" />
                       Delete All Bundles
-                    </>
-                  )}
-                </Button>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle className="flex items-center gap-2">
+                        <AlertTriangle className="h-5 w-5 text-destructive" />
+                        Confirm Delete All Bundles
+                      </DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to delete ALL bundles? This action cannot be undone.
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <DialogFooter>
+                      <Button variant="outline" disabled={deleteLoading}>
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        onClick={handleDeleteAllBundles}
+                        disabled={deleteLoading}
+                      >
+                        {deleteLoading ? (
+                          <div className="flex items-center gap-2">
+                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                            Deleting All...
+                          </div>
+                        ) : (
+                          <>
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete All Bundles
+                          </>
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </CardContent>
           </Card>

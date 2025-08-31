@@ -105,7 +105,7 @@ const sidebarNavItems: NavigationItem[] = [
         href: "/bundle_info",
       },
       {
-        title: "Subscribe",
+        title: "Subscribe Bundle (Self)",
         icon: PlusCircle,
         href: "/subscribe_bundle",
       },

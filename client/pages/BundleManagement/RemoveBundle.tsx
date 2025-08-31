@@ -299,6 +299,7 @@ export default function RemoveBundle() {
   const [statusCode, setStatusCode] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   // Mock bundle data
   const mockBundles: BundleDetail[] = [
@@ -354,6 +355,7 @@ export default function RemoveBundle() {
     setMessages('');
     setStatusCode(null);
     setBundlesDetails([]);
+    setHasSearched(false);
 
     try {
       if (!phoneNumber.trim()) {
@@ -370,9 +372,11 @@ export default function RemoveBundle() {
         setBundlesDetails(mockBundles);
         setMessages(`Successfully fetched bundles for ${phoneNumber}`);
         setStatusCode(200);
+        setHasSearched(true);
       } else {
         setMessages('Phone number not found or no active bundles.');
         setStatusCode(404);
+        setHasSearched(true);
       }
     } catch (error) {
       setMessages('Failed to fetch bundle information.');
@@ -473,14 +477,17 @@ export default function RemoveBundle() {
         />
 
         {/* Bundles Table */}
-        <BundlesTable
-          bundlesDetails={bundlesDetails}
-          onDeleteBundle={handleDeleteBundle}
-          loading={loading}
-        />
+        {/* Bundle Details Table - Only show after successful search */}
+        {hasSearched && statusCode === 200 && (
+          <BundlesTable
+            bundlesDetails={bundlesDetails}
+            onDeleteBundle={handleDeleteBundle}
+            loading={loading}
+          />
+        )}
 
-        {/* Delete All Bundles Button */}
-        {bundlesDetails.length > 0 && (
+        {/* Delete All Bundles Button - Only show when there are bundles after successful search */}
+        {hasSearched && statusCode === 200 && bundlesDetails.length > 0 && (
           <Card>
             <CardContent className="pt-6">
               <div className="flex justify-center">

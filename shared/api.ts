@@ -73,7 +73,7 @@ export interface NotificationMessagesRequest {
 }
 
 export interface NotificationMessagesResponse {
-  messagesByChannel: Record<string, string[]>;
+  messagesByChannel: Record<string, string[]>; // Currently supports "SMS" and "Kafika" channels, each with 6 language messages: English, Amharic, Oromo, Tigrinya, Somali, Afar
   nccId: string;
   notificationId: string;
 }

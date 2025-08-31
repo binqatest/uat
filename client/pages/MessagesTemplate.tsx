@@ -229,15 +229,22 @@ export default function MessagesTemplate() {
 
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Message Channels</CardTitle>
+                <CardTitle className="text-lg">Supported Channels</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <p>• SMS - Text messages</p>
-                  <p>• Email - Email notifications</p>
-                  <p>• Push - Push notifications</p>
-                  <p>• USSD - USSD responses</p>
-                  <p>• Web - Web notifications</p>
+                <div className="text-sm text-muted-foreground space-y-2">
+                  <p><strong>SMS</strong> - Text message notifications</p>
+                  <p><strong>Kafika</strong> - Kafika platform messages</p>
+                  <Separator className="my-2" />
+                  <p className="font-medium">Languages:</p>
+                  <div className="grid grid-cols-2 gap-1 ml-2">
+                    <p>• English</p>
+                    <p>• Amharic</p>
+                    <p>• Oromo</p>
+                    <p>• Tigrinya</p>
+                    <p>• Somali</p>
+                    <p>• Afar</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>

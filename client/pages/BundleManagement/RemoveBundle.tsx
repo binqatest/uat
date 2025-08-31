@@ -255,28 +255,6 @@ const BundlesTable = ({
                           </DialogDescription>
                         </DialogHeader>
                         
-                        {selectedBundle && (
-                          <div className="py-4">
-                            <div className="bg-muted p-4 rounded-lg space-y-2">
-                              <div className="flex justify-between">
-                                <span className="font-medium">Bundle:</span>
-                                <span>{selectedBundle.bundleName}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="font-medium">Type:</span>
-                                <span>{selectedBundle.bundleType}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="font-medium">Remaining:</span>
-                                <span>{selectedBundle.remaining}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="font-medium">Price:</span>
-                                <span>KES {selectedBundle.price.toFixed(2)}</span>
-                              </div>
-                            </div>
-                          </div>
-                        )}
 
                         <DialogFooter>
                           <Button 
@@ -465,11 +443,40 @@ export default function RemoveBundle() {
         />
 
         {/* Bundles Table */}
-        <BundlesTable 
+        <BundlesTable
           bundlesDetails={bundlesDetails}
           onDeleteBundle={handleDeleteBundle}
           loading={loading}
         />
+
+        {/* Delete All Bundles Button */}
+        {bundlesDetails.length > 0 && (
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex justify-center">
+                <Button
+                  variant="destructive"
+                  size="lg"
+                  onClick={handleDeleteAllBundles}
+                  disabled={loading || deleteLoading}
+                  className="min-w-[200px]"
+                >
+                  {deleteLoading ? (
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                      Deleting All...
+                    </div>
+                  ) : (
+                    <>
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Delete All Bundles
+                    </>
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
       </div>
     </Layout>

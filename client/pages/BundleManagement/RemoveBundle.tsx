@@ -298,6 +298,7 @@ export default function RemoveBundle() {
   const [bundlesDetails, setBundlesDetails] = useState<BundleDetail[]>([]);
   const [statusCode, setStatusCode] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   // Mock bundle data
   const mockBundles: BundleDetail[] = [

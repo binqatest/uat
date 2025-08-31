@@ -60,8 +60,8 @@ const FetchForm = ({
       </CardHeader>
       <CardContent>
         <form onSubmit={onSubmit} className="space-y-4">
-          <div className="flex gap-2">
-            <div className="flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <div className="space-y-2 md:col-span-2">
               <Label htmlFor="phoneNumber" className="flex items-center gap-2">
                 <Smartphone className="h-4 w-4" />
                 MSISDN
@@ -75,10 +75,10 @@ const FetchForm = ({
                 required
               />
             </div>
-            <div className="pt-6">
-              <Button 
-                type="submit" 
-                className="bg-brand hover:bg-brand-600"
+            <div className="flex md:col-span-1">
+              <Button
+                type="submit"
+                className="w-full bg-brand hover:bg-brand-600"
                 disabled={loading || !phoneNumber}
               >
                 {loading ? (

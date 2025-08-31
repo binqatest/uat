@@ -173,7 +173,7 @@ const BundlesTable = ({
         <CardContent>
           <div className="text-center py-8 text-muted-foreground">
             <XCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>No bundles found for removal</p>
+            <p>No active bundles found for this phone number</p>
           </div>
         </CardContent>
       </Card>

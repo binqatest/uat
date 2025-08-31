@@ -479,7 +479,7 @@ export default function RemoveBundle() {
 
         {/* Bundles Table */}
         {/* Bundle Details Table - Only show after successful search */}
-        {hasSearched && statusCode === 200 && (
+        {hasSearched && (statusCode === 200 || statusCode === 404) && (
           <BundlesTable
             bundlesDetails={bundlesDetails}
             onDeleteBundle={handleDeleteBundle}

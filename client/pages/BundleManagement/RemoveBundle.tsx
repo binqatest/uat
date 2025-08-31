@@ -381,6 +381,7 @@ export default function RemoveBundle() {
     } catch (error) {
       setMessages('Failed to fetch bundle information.');
       setStatusCode(500);
+      setHasSearched(true);
     } finally {
       setLoading(false);
     }

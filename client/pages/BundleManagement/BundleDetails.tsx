@@ -408,53 +408,6 @@ export default function BundleDetails() {
           </>
         )}
 
-        {/* Information Section */}
-        {!bundleData && !loading && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Search Tips</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm text-muted-foreground space-y-2">
-                  <p>• Enter the complete NCC ID</p>
-                  <p>• Use exact format (e.g., CBU001)</p>
-                  <p>• Check for typos if not found</p>
-                  <p>• Contact admin for new bundle IDs</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Bundle Categories</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <p>• CBU - Core Banking Unit</p>
-                  <p>• EBU - Electronic Banking</p>
-                  <p>• MPE - M-PESA Services</p>
-                  <p>• ROM - Roaming Services</p>
-                  <p>• CVM - Customer Value</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Features Included</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <p>• Basic bundle information</p>
-                  <p>• Period lifecycle (PLC) details</p>
-                  <p>• Charging logic configuration</p>
-                  <p>• Clickable notification templates</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
       </div>
     </Layout>
   );

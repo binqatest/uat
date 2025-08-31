@@ -44,6 +44,7 @@ import GiftBundle from "./pages/BundleManagement/GiftBundle";
 import LoanBundle from "./pages/BundleManagement/LoanBundle";
 import SubscribedBundles from "./pages/BundleManagement/SubscribedBundles";
 import CVMBundle from "./pages/BundleManagement/CVMBundle";
+import MessagesTemplate from "./pages/MessagesTemplate";
 
 // Utilities Pages
 import UnitConversion from "./pages/Utilities/UnitConversion";
@@ -204,6 +205,12 @@ const App = () => (
             <Route path="/cvm_bundle" element={
               <ProtectedRoute>
                 <CVMBundle />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/messages-template" element={
+              <ProtectedRoute>
+                <MessagesTemplate />
               </ProtectedRoute>
             } />
 
